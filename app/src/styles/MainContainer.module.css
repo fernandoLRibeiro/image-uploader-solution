@@ -82,6 +82,10 @@
   margin: 0;
 }
 
+.input {
+  display: none;
+}
+
 .button {
   outline: none;
   border: none;
