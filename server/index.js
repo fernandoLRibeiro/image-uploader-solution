@@ -5,8 +5,10 @@ const dotenv = require("dotenv").config();
 const multer = require("multer");
 const path = require("path");
 
+const PORT = process.env.PORT || 5000;
+
 const storage = multer.diskStorage({
-  destination: "./uploads/",
+  destination: "uploads",
   filename: (req, file, cb) => {
     cb(null, Date.now() + file.fieldname + path.extname(file.originalname));
   },
@@ -22,9 +24,12 @@ app.use(bodyParser.json({ limit: "30mb", extented: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extented: true }));
 app.use(cors());
 
+app.use("/uploads", express.static("uploads"));
+
 app.post("/", upload.single("image"), (req, res) => {
-  console.log(req);
-  res.send("ok");
+  console.log(req.file);
+  console.log(__dirname);
+  return res.send(req.file.path);
 });
 
-app.listen(5000, () => console.log("server started on port 5000"));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

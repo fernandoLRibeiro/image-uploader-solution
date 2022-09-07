@@ -5,15 +5,18 @@ import axios from "axios";
 import styles from "../styles/MainContainer.module.css";
 
 const MainContainer = () => {
-  const [selectedFile, setSelectedFile] = useState();
+  const [imageUrl, setImageUrl] = useState("");
   const inputRef = useRef();
+  const baseUrl = "http://localhost:5000/";
 
   const uploadFile = async (file) => {
     const fd = new FormData();
     fd.append("image", file, file.name);
 
     try {
-      axios.post("http://localhost:5000", fd).then((res) => console.log(res));
+      axios
+        .post("http://localhost:5000", fd)
+        .then((res) => setImageUrl(baseUrl + res.data));
     } catch (error) {
       console.error(error);
     }
@@ -26,23 +29,6 @@ const MainContainer = () => {
 
     await uploadFile(file);
   };
-
-  const convertBase64 = async (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-  useEffect(() => {
-    console.log(selectedFile);
-  }, [selectedFile]);
 
   return (
     <main className={styles.MainContainer}>
