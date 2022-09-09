@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import styles from "../styles/MainContainer.module.css";
@@ -16,7 +15,7 @@ const MainContainer = () => {
     try {
       axios.post(baseUrl, fd).then((res) => {
         console.log(res);
-        setImageUrl(baseUrl + res.data);
+        setImageUrl(baseUrl + res.data.path);
       });
     } catch (error) {
       console.error(error);
