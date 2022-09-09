@@ -27,9 +27,10 @@ app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
 app.post("/", upload.single("image"), (req, res) => {
-  console.log(req.file);
-  console.log(__dirname);
-  return res.send(req.file.path);
+  return res.send({
+    path: req.file.path,
+    possibleUrl: `${__dirname}/${req.file.path}`,
+  });
 });
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

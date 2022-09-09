@@ -5,18 +5,19 @@ import axios from "axios";
 import styles from "../styles/MainContainer.module.css";
 
 const MainContainer = () => {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState();
   const inputRef = useRef();
-  const baseUrl = "http://localhost:5000/";
+  const baseUrl = "https://image-uploader-solution-production.up.railway.app/";
 
   const uploadFile = async (file) => {
     const fd = new FormData();
     fd.append("image", file, file.name);
 
     try {
-      axios
-        .post("http://localhost:5000", fd)
-        .then((res) => setImageUrl(baseUrl + res.data));
+      axios.post(baseUrl, fd).then((res) => {
+        console.log(res);
+        setImageUrl(baseUrl + res.data);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -42,7 +43,10 @@ const MainContainer = () => {
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => handleDrop(e)}
       >
-        <img src="./images/image.svg" alt="placeholder" />
+        <img
+          src={imageUrl ? imageUrl : "./images/image.svg"}
+          alt="placeholder"
+        />
         <p className={styles.dropzoneText}>Drag & Drop your image here</p>
       </div>
       <div className={styles.last}>
