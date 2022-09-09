@@ -29,7 +29,6 @@ app.use("/uploads", express.static("uploads"));
 app.post("/", upload.single("image"), (req, res) => {
   return res.send({
     path: req.file.path,
-    possibleUrl: `${__dirname}/${req.file.path}`,
   });
 });
 
